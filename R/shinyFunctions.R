@@ -34,26 +34,25 @@ calcAveragePrice<- function(df, userCut, userColor, userClarity, userCarat){
 
 calcAveragePrice(diamonds, "Ideal", "E", "SI2", 1)
 
-diamondBars <- function(df, userCut, userColor, userCarat) {
-  
-  df<- df %>% mutate(cut = factor(cut), clarity = factor(clarity)) %>% 
-    filter(cut == userCut, color == userColor, carat == userCarat) %>% 
-    group_by(clarity) %>% 
+diamondBars <- function(df, userCut, userClarity, userCarat) {
+  df<- df %>% mutate(cut = factor(cut), color = factor(color)) %>% 
+    filter(clarity == userClarity, carat == userCarat) %>% 
+    group_by(color) %>% 
     summarise(avgPrice = mean(price))
   
   plot_ly(df, x = ~avgPrice, 
-          y = ~clarity,
-          marker = list(color = 'rgba(246, 10, 0, 0.6)'),
+          y = ~color,
+          marker = list(color = 'rgba(255, 0, 0, 0.6)'),
           type = 'bar',
           orientation = 'h') %>% 
-    layout(title = 'Diamond Prices', plot_bgcolor = "#e5ecf6",
+    layout(title = 'Diamond Prices', plot_bgcolor = "#fffbf8",
            xaxis = list(title = 'Average Price'),
-           yaxis = list(title = 'Clarity')
+           yaxis = list(title = 'Color')
     )
   
 }
 
-diamondBars(diamonds, "Ideal", "D", 1)
+diamondBars(diamonds, "Ideal", "SI2", 1)
 
 
 

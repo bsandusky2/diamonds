@@ -16,12 +16,13 @@ metricServer <- function(id, globalSession) {
       pred<-  getPrediction(model, input$cutPred, input$colorPred, input$clarityPred, input$caratPred)
       valueBox(
         value = tags$p("Predicted Diamond Price", style = "font-size: 75%;"),
-        paste0("$", formatC(as.numeric(pred), format="f", digits=2, big.mark=",")),)  
+        paste0("$", formatC(as.numeric(pred), format="f", digits=2, big.mark=",")),
+        color = "purple") 
     })
     
     output$plot <- renderPlotly({
-      diamondsFil <- reactive({diamondFiltered(diamonds, input$cut, input$color, input$clarity)})
-      diamondViz(diamondsFil(), input$cut, input$color, input$clarity)
+     # diamondsFil <- reactive({diamondFiltered(diamonds, input$cut, input$color, input$clarity)})
+      diamondViz(diamonds, input$cut, input$color, input$clarity, input$carat)
       })
     
     output$barPlot <- renderPlotly({

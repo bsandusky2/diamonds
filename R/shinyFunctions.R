@@ -48,12 +48,16 @@ diamondBars <- function(df, userCut, userColor, userClarity, userCarat) {
           orientation = 'h') %>% 
     layout(title = 'Diamond Prices', plot_bgcolor = "#fffbf8",
            xaxis = list(title = 'Average Price',tickformat = "$"),
-           yaxis = list(title = 'Color')
+           yaxis = list(title = 'Color', categoryorder = "total ascending")
     )
   
 }
 
 diamondBars(diamonds, "Ideal", "D","SI2", c(1,4))
+
+buildModel<- function(df){
+  
+}
 
 
 

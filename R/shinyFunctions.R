@@ -1,6 +1,6 @@
 diamondFiltered<- function(df, userCut = "Ideal", userColor = "E", userClarity = "SI2"){
   df<- df %>% 
-    filter(cut == userCut, color == userColor, clarity == userClarity) %>% 
+    filter(cut %in% userCut, color %in% userColor, clarity %in% userClarity) %>% 
     mutate(cut = factor(cut), clarity = factor(clarity))
 }
 
@@ -15,7 +15,7 @@ diamondViz <- function(df, userCut = "Ideal", userColor = "E", userClarity = "SI
     ) %>%
      layout(title = 'Diamond Prices', plot_bgcolor = "#e5ecf6",
             xaxis = list(title = 'Carat'),
-            yaxis = list(title = 'Price'),
+            yaxis = list(title = 'Price', tickformat = "$"),
             legend=list(title=list(text='Clarity'))
      )
 
@@ -24,7 +24,7 @@ diamondViz <- function(df, userCut = "Ideal", userColor = "E", userClarity = "SI
 diamondViz(diamonds)
 
 calcAveragePrice<- function(df, userCut, userColor, userClarity, userCarat){
-  avgPrice = df %>% filter(cut == userCut, color == userColor, clarity == userClarity, carat == userCarat) %>%
+  avgPrice = df %>% filter(cut == userCut, color == userColor, clarity == userClarity, carat > userCarat[1] & carat < userCarat[2]) %>%
   summarise(avgPrice = mean(price, na.rm = T)) %>% 
     as.double() %>% 
     round(.,0)
@@ -34,9 +34,10 @@ calcAveragePrice<- function(df, userCut, userColor, userClarity, userCarat){
 
 calcAveragePrice(diamonds, "Ideal", "E", "SI2", 1)
 
-diamondBars <- function(df, userCut, userClarity, userCarat) {
+diamondBars <- function(df, userCut, userColor, userClarity, userCarat) {
+ # browser()
   df<- df %>% mutate(cut = factor(cut), color = factor(color)) %>% 
-    filter(clarity == userClarity, carat == userCarat) %>% 
+    filter(clarity %in% userClarity, carat > userCarat[1], carat < userCarat[2], cut %in% userCut, color %in% userColor) %>% 
     group_by(color) %>% 
     summarise(avgPrice = mean(price))
   
@@ -46,13 +47,13 @@ diamondBars <- function(df, userCut, userClarity, userCarat) {
           type = 'bar',
           orientation = 'h') %>% 
     layout(title = 'Diamond Prices', plot_bgcolor = "#fffbf8",
-           xaxis = list(title = 'Average Price'),
+           xaxis = list(title = 'Average Price',tickformat = "$"),
            yaxis = list(title = 'Color')
     )
   
 }
 
-diamondBars(diamonds, "Ideal", "SI2", 1)
+diamondBars(diamonds, "Ideal", "D","SI2", c(1,4))
 
 
 

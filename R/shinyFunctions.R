@@ -56,7 +56,15 @@ diamondBars <- function(df, userCut, userColor, userClarity, userCarat) {
 diamondBars(diamonds, "Ideal", "D","SI2", c(1,4))
 
 buildModel<- function(df){
-  
+  lmod<- lm(price ~ cut + clarity + color + carat, data = df)
+  return(lmod)
+}
+
+getPrediction<- function(model, userCut, userColor, userClarity, userCarat){
+  newData = data.frame(cut = userCut, color = userColor, clarity = userClarity, carat = userCarat)
+  prediction = predict(model, newData)
+  prediction =  prediction %>%  as.double() %>% round(.,0)
+  return(prediction)
 }
 
 

@@ -13,10 +13,10 @@ metricServer <- function(id, globalSession) {
     })
     
     output$predDiamondPrice <- shinydashboard::renderValueBox({
-      d<- 1000
+      pred<-  getPrediction(model, input$cutPred, input$colorPred, input$clarityPred, input$caratPred)
       valueBox(
         value = tags$p("Predicted Diamond Price", style = "font-size: 75%;"),
-        d)  
+        paste0("$", formatC(as.numeric(pred), format="f", digits=2, big.mark=",")),)  
     })
     
     output$plot <- renderPlotly({

@@ -28,6 +28,16 @@ metric_ui <- function(id) {
            )
   )
   
+  frow4<- fluidRow(
+    column(2,
+           h3("Prediction Paramters"),
+           selectInput(NS(id, "clarityPred"), "Clarity", choices = unique(diamonds$clarity), selected = "I1", multiple = F),
+           selectInput(NS(id, "cutPred"), "Cut", choices = unique(diamonds$cut), selected = "Fair", multiple = F),
+           selectInput(NS(id, "colorPred"), "Color", choices = unique(diamonds$color), selected = "J", multiple = F),
+           numericInput(NS(id, "caratPred"), "Carat", value = 1, min = 0,max = 6)
+    )
+  )
+  
   #fluidPage(
   dashboardPage(
     dashboardHeader(title = "Diamond Pricing"),
@@ -56,7 +66,7 @@ metric_ui <- function(id) {
     #   plotlyOutput(NS(id, "barPlot"))
     # )
     # )
-      frow1,frow3
+      frow1,frow3, frow4
     )
   )
   

@@ -1,5 +1,6 @@
 packages<- c("shiny", "tidyverse", "plotly", "shinydashboard")
 invisible(lapply(packages, library, character.only = T))
+print(list.files())
 source("./R/shinyFunctions.R")
 source("./Modules/metrics/metricsModule.R")
 diamonds<- read_csv("diamonds.csv") %>% 
